@@ -31,8 +31,10 @@ jobs:
         id: set-context
         uses: azure/aks-set-context@v3
         with:
-          resource-group: '03_Maher' 
-          cluster-name: 'maher1AKS'
+          #resource-group: '03_Maher' 
+          resource-group: '${{ secrets.RESOURCE_GROUP }}' 
+          #cluster-name: 'maher1AKS'
+          cluster-name: '${{ secrets.NOM_CLUSTER }}'
       - name: Setup kubectl
         id: install-kubectl
         uses: azure/setup-kubectl@v3
@@ -43,5 +45,6 @@ jobs:
           namespace: 'default'
           manifests:
              azure-vote-all-in-one-redis.yaml
-          images: maher1ACR.azurecr.io/azuredocs/azure-vote-front:${{ github.sha }}
+          #images: maher1ACR.azurecr.io/azuredocs/azure-vote-front:${{ github.sha }}
+          images: '${{ secrets.REGISTRE }}.azurecr.io/${{ secrets.REPOSITORY }}/azure-vote-front:${{ github.sha }}'
           pull-images: false
